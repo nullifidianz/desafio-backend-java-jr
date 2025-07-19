@@ -1,4 +1,6 @@
 package com.nullifidianz.demo.domain.entity;
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +25,7 @@ public class Matricula extends DateAudit {
 
     private String codigoMatricula;
     private String nomeCurso;
+    private LocalDate dataInicio;
 
     @ManyToOne
     @JoinColumn(name = "aluno_id")
