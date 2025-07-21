@@ -1,7 +1,10 @@
 package com.nullifidianz.demo.domain.entity;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +31,6 @@ public class Aluno extends DateAudit {
 
     private LocalDate dataNascimento;
 
-    @OneToMany
-    private List<Matricula> matriculas;
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Matricula> matriculas = new ArrayList<>();
 }

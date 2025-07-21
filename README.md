@@ -58,7 +58,7 @@ curl -X POST http://localhost:8080/api/v1/alunos \
   -H "Content-Type: application/json" \
   -d '{
     "nome": "João Silva",
-    "email": "joao@email.com",
+    "telefone": "(11) 99999-9999",
     "dataNascimento": "1995-05-15"
   }'
 ```
@@ -76,7 +76,7 @@ curl -X PUT http://localhost:8080/api/v1/alunos/1 \
   -H "Content-Type: application/json" \
   -d '{
     "nome": "João Silva Santos",
-    "email": "joao.santos@email.com",
+    "telefone": "(11) 99999-9999",
     "dataNascimento": "1995-05-15"
   }'
 ```

@@ -33,8 +33,7 @@ public class AlunoController {
         this.service = service;
     }
     
-    @PostMapping
-    @RequestMapping("/alunos")
+    @PostMapping("/alunos")
     @Operation(summary = "Cadastrar novo aluno", description = "Cria um novo registro de aluno no sistema")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Aluno criado com sucesso"),
@@ -44,8 +43,7 @@ public class AlunoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.cadastrarAluno(request));
     }
 
-    @GetMapping
-    @RequestMapping("/alunos")
+    @GetMapping("/alunos")
     @Operation(summary = "Listar todos os alunos", description = "Retorna uma lista com todos os alunos cadastrados")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Lista de alunos retornada com sucesso"),
@@ -55,8 +53,7 @@ public class AlunoController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.listarTodos(null));
     }
 
-    @PutMapping
-    @RequestMapping("alunos/{id}")
+    @PutMapping("/alunos/{id}")
     @Operation(summary = "Atualizar aluno", description = "Atualiza os dados de um aluno existente pelo ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Aluno atualizado com sucesso"),
@@ -67,8 +64,7 @@ public class AlunoController {
         return ResponseEntity.ok(service.atualizarAluno(id, request));
     }
 
-    @DeleteMapping
-    @RequestMapping("/alunos/{id}")
+    @DeleteMapping("/alunos/{id}")
     @Operation(summary = "Deletar aluno", description = "Remove um aluno do sistema pelo ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "204", description = "Aluno removido com sucesso"),

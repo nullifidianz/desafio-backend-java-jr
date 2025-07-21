@@ -15,23 +15,39 @@ public class AlunoMapper {
         aluno.setNome(request.nome());
         aluno.setTelefone(request.telefone());
         aluno.setDataNascimento(request.dataNascimento());
-        List<Matricula> matriculas = request.matriculas().stream().map(m->{
-            Matricula matricula = new Matricula();
-            matricula.setCodigoMatricula(m.codigoMatricula());
-            matricula.setNomeCurso(m.nomeCurso());
-            matricula.setDataInicio(m.dataInicio());
-            matricula.setAluno(aluno);
-            return matricula;}).toList();
-        aluno.setMatriculas(matriculas);
+        
+        // Verifica se a lista de matrículas não é nula antes de processar
+        if (request.matriculas() != null) {
+            List<Matricula> matriculas = request.matriculas().stream().map(m->{
+                Matricula matricula = new Matricula();
+                matricula.setCodigoMatricula(m.codigoMatricula());
+                matricula.setNomeCurso(m.nomeCurso());
+                matricula.setDataInicio(m.dataInicio());
+                matricula.setAluno(aluno);
+                return matricula;}).toList();
+            aluno.setMatriculas(matriculas);
+        } else {
+            // Se não houver matrículas, inicializa com lista vazia
+            aluno.setMatriculas(List.of());
+        }
+        
         return aluno;
     }
 
 
     public AlunoResponse toResponse(Aluno aluno){
-        List<MatriculaDTO> matriculas = aluno.getMatriculas().stream().map(m->{
-            MatriculaDTO matriculaDTO = new MatriculaDTO(m.getCodigoMatricula(), m.getNomeCurso(), m.getDataInicio());
-            return matriculaDTO;
-        }).toList();
+        List<MatriculaDTO> matriculas;
+        
+        // Verifica se a lista de matrículas não é nula antes de processar
+        if (aluno.getMatriculas() != null) {
+            matriculas = aluno.getMatriculas().stream().map(m->{
+                MatriculaDTO matriculaDTO = new MatriculaDTO(m.getCodigoMatricula(), m.getNomeCurso(), m.getDataInicio());
+                return matriculaDTO;
+            }).toList();
+        } else {
+            matriculas = List.of();
+        }
+        
         return new AlunoResponse(aluno.getId(), aluno.getNome(), aluno.getTelefone(), aluno.getDataNascimento(), matriculas);
     }
 }

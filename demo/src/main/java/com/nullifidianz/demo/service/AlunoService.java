@@ -34,23 +34,39 @@ public class AlunoService {
     
     public List<MatriculaDTO> listarPorMatricula(Long id){
         Aluno aluno = repository.findById(id).orElseThrow(()-> new EntityNotFoundException("Id não encontrado"));
-        return aluno.getMatriculas().stream().map(m-> new MatriculaDTO(m.getCodigoMatricula(), m.getNomeCurso(), m.getDataInicio())).toList();
+        
+       
+        if (aluno.getMatriculas() != null) {
+            return aluno.getMatriculas().stream().map(m-> new MatriculaDTO(m.getCodigoMatricula(), m.getNomeCurso(), m.getDataInicio())).toList();
+        } else {
+            return List.of();
+        }
     }
     
     public AlunoResponse atualizarAluno(Long id, AlunoRequest request){
         Aluno aluno = repository.findById(id).orElseThrow(()-> new EntityNotFoundException("Id não encontrado"));
+        
+        
         aluno.setNome(request.nome());
         aluno.setDataNascimento(request.dataNascimento());
         aluno.setTelefone(request.telefone());
 
-        for(MatriculaDTO m : request.matriculas()){
-            Matricula matricula = new Matricula();
-            matricula.setCodigoMatricula(m.codigoMatricula());
-            matricula.setDataInicio(m.dataInicio());
-            matricula.setNomeCurso(m.nomeCurso());
-            aluno.getMatriculas().add(matricula);
+        
+        aluno.getMatriculas().clear();
+        
+        
+        if (request.matriculas() != null) {
+            for(MatriculaDTO m : request.matriculas()){
+                Matricula matricula = new Matricula();
+                matricula.setCodigoMatricula(m.codigoMatricula());
+                matricula.setDataInicio(m.dataInicio());
+                matricula.setNomeCurso(m.nomeCurso());
+                matricula.setAluno(aluno);
+                aluno.getMatriculas().add(matricula);
+            }
         }
 
+        repository.save(aluno);
         return mapper.toResponse(aluno);
     }
     
